@@ -1,0 +1,17 @@
+html5新特性：
+内容类型
+DOCTYPE 声明
+指定字符编码
+可以省略标记的元素
+具有boolean值得属性
+省略引号
+
+新增的元素：
+新增结构元素：
+  section、 article、aside、header、hgroup、nav、figure
+
+新增的其他元素：
+video、audio、canvas  等等
+
+新增的input元素：
+email，url,number,range,Date Pickers  等等

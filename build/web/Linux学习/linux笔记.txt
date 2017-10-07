@@ -1,0 +1,29 @@
+Linux系统严格区分大小写
+Linux所有的内容都是以文件的格式保存，包括 硬件
+在Windows中硬件就是硬件，文件就是文件，用户就是用户等等
+
+
+Linux不靠扩展名区分文件类型
+
+
+使用权限来区分文件类型
+
+
+约定俗成的区分方法：
+压缩包：“*.gz","*.bz2" "*.tar.bz2" "*.tgz"等
+二进制软件包：".rpm"
+网页文件："*.html" "*.php"
+脚本文件："*.sh"
+
+
+Windows下程序不能够在Linux中直接安装和运行。linux用于服务器下运行的
+
+
+
+字符界面的优势：
+占用的系统资源少。
+减少了出错和被攻击的可能性
+
+
+xSheet连接乌班图操作系统的教程：http://www.cnblogs.com/wuyuegb2312/archive/2013/03/28/2986963.html
+centerOS的网络配置，用xSheet可以连接他  http://blog.csdn.net/u010648555/article/details/50570625

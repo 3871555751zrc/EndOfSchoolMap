@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-1.4.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery.jqupload.min.js" type="text/javascript"></script>
+        <script src="js/connect.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div>
+            <form>
+                <input type="submit" value="提交" onclick="get()">
+            </form>
+           
+        </div>
+        <script>
+           var request =  {"type":"USER_PUBLISHMARKINF","data":{"itemtypeid":"1","title":"嘿嘿","content":"你妹的","imagefilename":"1506094379875.jpg"}};
+           function get(){
+               connect(request,function(data){
+                   console.log(data);
+               },function(data){
+                   console.log(data);
+               });
+           }
+           
+           
+   
+           
+           
+        </script>
+    </body>
+</html>

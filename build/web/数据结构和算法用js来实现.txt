@@ -1,0 +1,95 @@
+
+//插入排序
+//var  a = [1,2,1,2,32,12,342,42,1,65,89,23,45];
+//for(var i=1;i<a.length;i++)
+//{
+//	var temp = a[i];
+//	for(var j=i-1;j>=0;j--)
+//	{
+//		if(temp<a[j])//必须是temp
+//		{
+//			a[j+1] = a[j];
+//		}
+//		else{
+//			a[j+1] = temp;
+//			break;//必须有break！！！
+//		}
+//	}
+//	
+//}
+
+//选择排序
+//var  a = [1,2,1,2,32,12,342,42,1,65,89,23,45,111,21,13,123,12332,12];
+//for(var i=0;i<a.length-1;i++)
+//{
+//	var k = i;//指向最小值
+//	for(var j=i;j<a.length;j++)
+//	{
+//		//这里是寻找最小值
+//		if(a[k]>a[j])
+//		{
+//			k = j;
+//		}
+//		
+//		
+//	}
+//	if(k!==i)
+//	{
+////		交换a[k] 和 a[i]
+//   var temp = a[k];
+//   a[k] = a[i];
+//   a[i] = temp;
+//	}
+//}
+//
+////冒泡排序
+//var  a = [1,121213,2212,1211,2,1,2,32,12,342,42,1,65,89,23,45,111,21,13,123,12332,12];
+//for(var i=0;i<a.length-1;i++)
+//{
+//	var isFinished = true;
+//	for(var j=0;j<a.length-i;j++)
+//	{
+//		if(a[j]>a[j+1])
+//		{
+//			var temp = a[j];
+//			a[j]  = a[j+1];
+//			a[j+1] = temp;
+//			isFinished = false;
+//		}
+//	}
+//	if(isFinished)
+//	{
+//		break;
+//	}
+//}
+
+
+////希尔排序
+//function shellSort(arr){
+//	//首先声明需要的变量
+//	var i,j,m,d,increament;
+//	increament = arr.length/3;//初始间隔是数组长度除以3
+//	for(var m=increament;m>=1;m--)//外层循环控制希尔排序宏观次数，m表示间隔大小，从最大到1的过程就应该经历了宏观的次数
+//	{
+//		d = m;//d表示当前希尔排序的间隔
+//		for(i=d;i<arr.length;i++){
+//			if(arr[i]<arr[i-d])
+//			{
+//				temp = arr[i];//找到了比他大的数，保存到临时变量里面
+//				j = i;//j是用来查找需要移动的数组，先指向i
+//				do{
+//					arr[j] = arr[j-d];//把j-d那个位置的数移动到这里
+//					j = j-d;//这个时候j指向了j-d这个位置
+//					if(j-d<0)
+//					{
+//						break;
+//					}
+//				}while(j>0 && temp<arr[j-d])
+//				arr[j] = temp;
+//			}
+//		}
+//	
+//	}
+//	return arr;
+//	
+//}

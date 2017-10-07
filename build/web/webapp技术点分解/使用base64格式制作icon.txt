@@ -1,0 +1,40 @@
+优势：可以减少请求，加快首屏数据的显示速度
+缺点：不容易维护
+如何做呢？
+
+background-color:url(data:image/png:base64....)
+
+
+css3实现ico：
+很合适在webapp上做ico
+常用属性：border-radius,box-shadow 等等
+
+
+
+html5的新型api 分类
+
+DOM操作新增了一些api
+比如qureyaSelect()等等
+本地存储
+localStorage
+
+跨域通信：postMessage（）等等
+
+地图服务
+
+
+移动端事件：touchstart,touchmove,touchend
+            手指点击开始    拖动   手指离开屏幕
+
+
+viwerport做布局移动端页面
+使用viewport固定整个页面的宽度，
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minmum-scale=1.0,maxmum-scale=1.0,user-scalable=no"/>
+表示使用设备的宽度，不可以缩放！
+
+
+html5：性能瓶颈，尽量避免repaint(页面重绘)，reflow（页面回流），尽量减少dom操作
+       尽量使用缓存，HTTP缓存，到了html5时代就可以用本地存储localstorage等等，
+       使用css3的transform来替换一些DOM操作
+       适当使用硬件加速，非static的定位不要使用css3的transform，因为非常消耗性能
+      

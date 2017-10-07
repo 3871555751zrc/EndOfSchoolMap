@@ -1,0 +1,19 @@
+1、链接数据
+    文本链接
+    图片链接
+2、属性
+   href 属性，指向另外一个文档的属性
+   name 属性：创建文档内部的链接
+
+3、img标签属性：
+   src:图片的路径
+   alt：替换文本属性
+   width：宽
+   height：高
+
+eg:
+<a href="http://baidu.com"><img src="img/html5.jpg" alt="html5logo" width="200px;" height="200px;"/></a>
+	
+	<a name="tips">hello</a>
+	
+	<a href="#tips">跳转到hello</a>
