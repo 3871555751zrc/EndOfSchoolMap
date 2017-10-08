@@ -15,13 +15,13 @@ and open the template in the editor.
     </head>
     <body>
         <div>
-            <form>
+            
                 <input type="submit" value="提交" onclick="get()">
-            </form>
+          
            
         </div>
         <script>
-           var request =  {"type":"USER_PUBLISHMARKINF","data":{"itemtypeid":"1","title":"嘿嘿","content":"你妹的","imagefilename":"1506094379875.jpg"}};
+           var request =  {"type":"POINOFINFSER_HANSHILIAOLIJIXICAN"};
            function get(){
                connect(request,function(data){
                    console.log(data);

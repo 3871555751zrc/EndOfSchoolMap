@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Model.Server;
+import PointOfInformation.PointOfInformationServer;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,11 @@ public class Service extends HttpServlet {
            {
                case "USER":{
                   sv = new UserServer();
-          
+                  break;
+               }
+               case "POINOFINFSER":{
+                   sv = new PointOfInformationServer();
+                   break;
                }
               
                

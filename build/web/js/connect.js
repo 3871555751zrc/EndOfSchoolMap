@@ -7,7 +7,7 @@ var connect = function(request, success, failure) {
 			},
 			success: function(data) {
 				var json = JSON.parse(data);
-				if(json.success) {
+				if(json["success"]) {
 					if(success && typeof success === "function") {
 						success(json);
 					}

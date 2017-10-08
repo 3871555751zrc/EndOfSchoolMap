@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Model;
+import java.security.interfaces.RSAKey;
 import  java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,6 +58,22 @@ public class UserServer extends  Server{
             else if(this._reqJsonObj.get("reqType").equals("SPATIALQUE")){
                 this.spatialQuery();//空间查询
             }
+            else if(this._reqJsonObj.get("reqType").equals("LIKE")){
+                this.like();
+            }
+            else if(this._reqJsonObj.get("reqType").equals("LOADMARKINFLIKECOUNT")){
+                this.loadMarkInfLikeCount();//加载markinf喜欢的数量
+            }
+            else if(this._reqJsonObj.get("reqType").equals("LOADAMUSEMENT")){
+                this.loadAmusement();//加载娱乐的新闻
+            }
+            else if(this._reqJsonObj.get("reqType").equals("LOADNEWS")){
+                this.loadNews();//加载新闻
+            }
+            else if(this._reqJsonObj.get("reqType").equals("LOADASCHOOLNOTICE")){
+                this.loadSchoolNotice();//加载校园通告
+            }
+            
             
         } catch (JSONException | SQLException ex) {
             Logger.getLogger(UserServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -249,8 +266,30 @@ public class UserServer extends  Server{
       this._responseJsonObj.put("responseDataArr", responseDataArr);
     }
 
-    private void loadComment() {
+    private void loadComment() throws JSONException, SQLException {
         //To change body of generated methods, choose Tools | Templates.
+        String infId = this._reqJsonObj.getString("infId");//拿到infId
+        String sql = "select A.username,B.commenttext,B.commenttime "
+                            + "from  sm_user A, sm_markinf_comment B "
+                            + " where "
+                            + "A.userid = B.commentterid and"
+                            + " markinfid ="+infId+" "
+                            + " order by B.commenttime DESC ;";
+        Statement st = this._connection.createStatement();
+        ResultSet rs = st.executeQuery(sql);//查询得出结果
+        ArrayList responseDataArr = new ArrayList();
+        boolean success = false;
+        while(rs.next()){
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("username",rs.getString(1));
+            jsonObj.put("commenttext", rs.getString(2));
+            jsonObj.put("commenttime", rs.getTimestamp(3));
+            responseDataArr.add(jsonObj);
+            success = true;
+        }
+        
+      this._responseJsonObj.put("success", success);
+      this._responseJsonObj.put("responseDataArr", responseDataArr);
         
     }
 
@@ -319,6 +358,149 @@ public class UserServer extends  Server{
            this._responseJsonObj.put("message","密码更新失败！");
        }
        
+    }
+
+    private void like() throws JSONException, SQLException {
+       //To change body of generated methods, choose Tools | Templates.
+       String infId = this._reqJsonObj.getString("infId");
+       String sql1 = "insert into sm_markinf_like(markinfid,commenterid) values("+infId+","+this._session.getAttribute("userid")+");";
+       Statement st1 = this._connection.createStatement();
+       int result1 = st1.executeUpdate(sql1);
+       if(result1!=-1){
+           this._responseJsonObj.put("success",true);
+           this._responseJsonObj.put("message","ok");
+       }
+       
+    }
+
+    private void loadMarkInfLikeCount() throws JSONException, SQLException {
+       //To change body of generated methods, choose Tools | Templates.
+       String infId =this._reqJsonObj.getString("infId");
+       String sql = "select count(*) from sm_markinf_like where markinfid ="+infId+";";
+       Statement st = this._connection.createStatement();
+       ResultSet rs = st.executeQuery(sql);//查询
+       boolean flag = false;
+       while(rs.next()){
+           this._responseJsonObj.put("success", true);
+           this._responseJsonObj.put("markinfcount", rs.getInt(1));
+           flag = true;
+       }
+       if(!flag){
+           this._responseJsonObj.put("success", false);
+           this._responseJsonObj.put("message", "查询失败");
+       }
+       
+    }
+
+    private void loadAmusement() throws SQLException, JSONException {
+             //To change body of generated methods, choose Tools | Templates.
+      String sql = "select * from sm_markinf where itemtypeid = 1";//1是娱乐
+//      String sql = "select * from sm_markinf where userid = "+this._reqJsonObj.getInt("userid");
+      Statement st = this._connection.createStatement();
+      ResultSet rs = st.executeQuery(sql);
+      ArrayList responseDataArr = new ArrayList();
+//                                         数据表 "public.sm_markinf"
+//     栏位      |            类型             |                      修饰词
+//---------------+-----------------------------+--------------------------------------------------
+// id            | integer                     | 非空 默认 nextval('sm_markinf_id_seq'::regclass)
+// itemtypeid    | integer                     |
+// title         | text                        |
+// content       | text                        |
+// imagefilename | text                        |
+// publishtime   | timestamp without time zone |
+// userid        | integer                     |
+// positionstr   | text                        |
+      boolean success = false;
+      while(rs.next()){
+         JSONObject myPublishInfData = new JSONObject();
+         myPublishInfData.put("id",rs.getInt(1));
+         myPublishInfData.put("itemtypeid",rs.getInt(2));
+         myPublishInfData.put("title",rs.getString(3));
+         myPublishInfData.put("content", rs.getString(4));
+         myPublishInfData.put("imagefilename", rs.getString(5));
+         myPublishInfData.put("pulishtime", rs.getTimestamp(6));
+         myPublishInfData.put("userid",rs.getInt(7));
+         myPublishInfData.put("positionstr",rs.getString(8));
+         responseDataArr.add(myPublishInfData);//添加数据到数组里面
+         success = true;
+      }
+      
+      this._responseJsonObj.put("success", success);
+      this._responseJsonObj.put("responseDataArr", responseDataArr);
+    }
+
+    private void loadNews() throws SQLException, JSONException {
+                  //To change body of generated methods, choose Tools | Templates.
+      String sql = "select * from sm_markinf where itemtypeid = 2";//2是新闻
+//      String sql = "select * from sm_markinf where userid = "+this._reqJsonObj.getInt("userid");
+      Statement st = this._connection.createStatement();
+      ResultSet rs = st.executeQuery(sql);
+      ArrayList responseDataArr = new ArrayList();
+//                                         数据表 "public.sm_markinf"
+//     栏位      |            类型             |                      修饰词
+//---------------+-----------------------------+--------------------------------------------------
+// id            | integer                     | 非空 默认 nextval('sm_markinf_id_seq'::regclass)
+// itemtypeid    | integer                     |
+// title         | text                        |
+// content       | text                        |
+// imagefilename | text                        |
+// publishtime   | timestamp without time zone |
+// userid        | integer                     |
+// positionstr   | text                        |
+      boolean success = false;
+      while(rs.next()){
+         JSONObject myPublishInfData = new JSONObject();
+         myPublishInfData.put("id",rs.getInt(1));
+         myPublishInfData.put("itemtypeid",rs.getInt(2));
+         myPublishInfData.put("title",rs.getString(3));
+         myPublishInfData.put("content", rs.getString(4));
+         myPublishInfData.put("imagefilename", rs.getString(5));
+         myPublishInfData.put("pulishtime", rs.getTimestamp(6));
+         myPublishInfData.put("userid",rs.getInt(7));
+         myPublishInfData.put("positionstr",rs.getString(8));
+         responseDataArr.add(myPublishInfData);//添加数据到数组里面
+         success = true;
+      }
+      
+      this._responseJsonObj.put("success", success);
+      this._responseJsonObj.put("responseDataArr", responseDataArr);
+    }
+
+    private void loadSchoolNotice() throws SQLException, JSONException {
+                  //To change body of generated methods, choose Tools | Templates.
+      String sql = "select * from sm_markinf where itemtypeid = 3";//3是校园公告
+//      String sql = "select * from sm_markinf where userid = "+this._reqJsonObj.getInt("userid");
+      Statement st = this._connection.createStatement();
+      ResultSet rs = st.executeQuery(sql);
+      ArrayList responseDataArr = new ArrayList();
+//                                         数据表 "public.sm_markinf"
+//     栏位      |            类型             |                      修饰词
+//---------------+-----------------------------+--------------------------------------------------
+// id            | integer                     | 非空 默认 nextval('sm_markinf_id_seq'::regclass)
+// itemtypeid    | integer                     |
+// title         | text                        |
+// content       | text                        |
+// imagefilename | text                        |
+// publishtime   | timestamp without time zone |
+// userid        | integer                     |
+// positionstr   | text                        |
+      boolean success = false;
+      while(rs.next()){
+         JSONObject myPublishInfData = new JSONObject();
+         myPublishInfData.put("id",rs.getInt(1));
+         myPublishInfData.put("itemtypeid",rs.getInt(2));
+         myPublishInfData.put("title",rs.getString(3));
+         myPublishInfData.put("content", rs.getString(4));
+         myPublishInfData.put("imagefilename", rs.getString(5));
+         myPublishInfData.put("pulishtime", rs.getTimestamp(6));
+         myPublishInfData.put("userid",rs.getInt(7));
+         myPublishInfData.put("positionstr",rs.getString(8));
+         responseDataArr.add(myPublishInfData);//添加数据到数组里面
+         success = true;
+      }
+      
+      this._responseJsonObj.put("success", success);
+      this._responseJsonObj.put("responseDataArr", responseDataArr);
     }
  
 }
